@@ -1,0 +1,15 @@
+# Use Node.js as the base image for the backend
+FROM node:16 AS backend
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+EXPOSE 3000
+CMD ["node", "index.js"]
+
+# Use MySQL as the base image for the database
+FROM mysql:8.0 AS database
+ENV MYSQL_ROOT_PASSWORD=password
+ENV MYSQL_DATABASE=oil_attendance
+COPY init.sql /docker-entrypoint-initdb.d/
+EXPOSE 3306

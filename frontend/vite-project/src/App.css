@@ -1,0 +1,200 @@
+/* General Styles */
+:root {
+  --primary-color: #646cff;
+  --primary-hover-color: #535bf2;
+  --background-color: #f4f4f9;
+  --card-background: #fff;
+  --text-color: #333;
+  --text-light-color: #555;
+  --border-color: #ddd;
+  --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --spacing: 20px;
+  --radius: 10px;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: var(--background-color);
+  margin: 0;
+  padding: 0;
+  color: var(--text-color);
+}
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Logo Styles */
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em var(--primary-hover-color));
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+/* App Layout */
+.App {
+  padding: var(--spacing);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+  color: var(--text-color);
+  margin-bottom: 30px;
+}
+
+/* Filters */
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing);
+  margin-bottom: var(--spacing);
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: var(--text-light-color);
+}
+
+.filter-group select,
+.filter-group input {
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  font-size: 14px;
+  background-color: var(--card-background);
+  color: var(--text-color);
+}
+
+/* Card Styles */
+.card {
+  background: var(--card-background);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: var(--spacing);
+  margin-bottom: var(--spacing);
+}
+
+.card h2 {
+  margin-top: 0;
+  color: var(--text-color);
+  font-size: 24px;
+}
+
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--spacing);
+}
+
+table th,
+table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+table th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Chart Styles */
+.chart {
+  margin-top: var(--spacing);
+}
+
+/* Overall Summary */
+.summary {
+  display: flex;
+  gap: var(--spacing);
+  margin-bottom: var(--spacing);
+}
+
+.summary p {
+  background: var(--background-color);
+  padding: 10px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* Employee Stats and Top Performers Tables */
+.card table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--spacing);
+}
+
+.card table th,
+.card table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.card table th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.card table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Stats Selector */
+.card select {
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  font-size: 14px;
+  background-color: var(--card-background);
+  color: var(--text-color);
+  width: 100%;
+  max-width: 300px;
+}
+
+/* Read the Docs */
+.read-the-docs {
+  color: #888;
+}
