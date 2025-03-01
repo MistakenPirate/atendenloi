@@ -198,3 +198,99 @@ table tr:hover {
 .read-the-docs {
   color: #888;
 }
+/* App.css */
+.dashboard-title {
+  font-size: 2.5rem; /* Increase font size */
+  text-align: center; /* Center the title */
+  margin-bottom: 20px; /* Add some spacing below the title */
+}
+
+.filters {
+  display: flex; /* Align filters in one line */
+  gap: 10px; /* Add spacing between filter groups */
+  margin-bottom: 20px; /* Add spacing below the filters */
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px; /* Add spacing between label and input */
+}
+
+.filter-group label {
+  font-weight: bold; /* Make labels bold */
+}
+
+.filter-group select,
+.filter-group input {
+  padding: 5px; /* Add padding to inputs */
+  border: 1px solid #ccc; /* Add border to inputs */
+  border-radius: 4px; /* Add rounded corners */
+}
+
+/* Download CSV Button */
+.download-button {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.download-button:hover {
+  background-color: #45a049;
+}
+
+/* Apply for Leave Button */
+.leave-button {
+  background-color: #2196F3; /* Blue */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.leave-button:hover {
+  background-color: #1e88e5;
+}
+
+/* Submit and Cancel Buttons in Leave Application Form */
+.submit-button {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.submit-button:hover {
+  background-color: #45a049;
+}
+
+.cancel-button {
+  background-color: #f44336; /* Red */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+.cancel-button:hover {
+  background-color: #e53935;
+}

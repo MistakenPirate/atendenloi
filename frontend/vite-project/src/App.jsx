@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Bar, Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import axios from 'axios';
+import { CSVLink } from 'react-csv'; // For CSV export
 import './App.css';
 
 // Register Chart.js components
@@ -16,7 +17,15 @@ function App() {
     end_date: '',
     status: ''
   });
-  const [selectedStat, setSelectedStat] = useState('overall'); // Default to overall summary
+
+  const [selectedStat, setSelectedStat] = useState('employee');
+  const [showLeaveApplication, setShowLeaveApplication] = useState(false);
+  const [leaveApplication, setLeaveApplication] = useState({
+    employee_id: '',
+    start_date: '',
+    end_date: '',
+    reason: ''
+  });
 
   // Fetch employees and attendance data from the backend
   useEffect(() => {
@@ -27,7 +36,7 @@ function App() {
   // Fetch employees from the backend
   const fetchEmployees = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/employees');
+      const response = await axios.get('http://37.27.182.109:3000/employees');
       setEmployees(response.data);
     } catch (error) {
       console.error('Error fetching employees:', error);
@@ -37,7 +46,7 @@ function App() {
   // Fetch attendance records from the backend
   const fetchAttendance = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/attendance');
+      const response = await axios.get('http://37.27.182.109:3000/allattendance');
       setAttendance(response.data);
     } catch (error) {
       console.error('Error fetching attendance:', error);
@@ -53,6 +62,35 @@ function App() {
       (filters.status ? record.status === filters.status : true)
     );
   });
+
+  // Handle leave application submission
+  const handleLeaveApplication = async (e) => {
+    e.preventDefault();
+    alert('Leave application submitted successfully!');
+    setLeaveApplication({ employee_id: '', start_date: '', end_date: '', reason: '' });
+    setShowLeaveApplication(false); // Hide the leave application screen after submission
+  };
+
+  // Handle input change for leave application
+  const handleLeaveInputChange = (e) => {
+    const { name, value } = e.target;
+    setLeaveApplication({ ...leaveApplication, [name]: value });
+  };
+
+  // Download filtered data as CSV
+  const csvData = filteredAttendance.map(record => ({
+    EmployeeID: record.employee_id,
+    Name: employees.find(emp => emp.employee_id === record.employee_id)?.name || 'Unknown',
+    Date: record.date,
+    Status: record.status
+  }));
+
+  const csvHeaders = [
+    { label: 'Employee ID', key: 'EmployeeID' },
+    { label: 'Name', key: 'Name' },
+    { label: 'Date', key: 'Date' },
+    { label: 'Status', key: 'Status' }
+  ];
 
   // Calculate overall attendance summary
   const overallSummary = {
@@ -124,9 +162,18 @@ function App() {
     ]
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-GB', { // Use 'en-GB' for DD/MM/YYYY format
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
+  };
+
   return (
     <div className="App">
-      <h1>Oil India Limited - Attendance Dashboard</h1>
+      <h1 className="dashboard-title">Oil India Limited - Attendance Dashboard</h1>
 
       {/* Filters */}
       <div className="filters">
@@ -162,7 +209,72 @@ function App() {
             <option value="leave">Leave</option>
           </select>
         </div>
+        <div className="filter-group">
+          <CSVLink
+            data={csvData}
+            headers={csvHeaders}
+            filename="filtered_attendance.csv"
+            className="download-button"
+          >
+            📄 Download CSV
+          </CSVLink>
+        </div>
+        <div className="filter-group">
+          <button className="leave-button" onClick={() => setShowLeaveApplication(true)}>
+            📝 Apply for Leave
+          </button>
+        </div>
       </div>
+
+      {/* Leave Application Screen */}
+      {showLeaveApplication && (
+        <div className="leave-application-screen">
+          <h2>Submit Leave Application</h2>
+          <form onSubmit={handleLeaveApplication}>
+            <div className="form-group">
+              <label>Employee ID</label>
+              <input
+                type="text"
+                name="employee_id"
+                value={leaveApplication.employee_id}
+                onChange={handleLeaveInputChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Start Date</label>
+              <input
+                type="date"
+                name="start_date"
+                value={leaveApplication.start_date}
+                onChange={handleLeaveInputChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>End Date</label>
+              <input
+                type="date"
+                name="end_date"
+                value={leaveApplication.end_date}
+                onChange={handleLeaveInputChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Reason</label>
+              <textarea
+                name="reason"
+                value={leaveApplication.reason}
+                onChange={handleLeaveInputChange}
+                required
+              />
+            </div>
+            <button type="submit" className="submit-button">Submit Leave Application</button>
+            <button type="button" className="cancel-button" onClick={() => setShowLeaveApplication(false)}>Cancel</button>
+          </form>
+        </div>
+      )}
 
       {/* Attendance Table (Top) */}
       <div className="card">
@@ -181,7 +293,7 @@ function App() {
               <tr key={record.id}>
                 <td>{record.employee_id}</td>
                 <td>{employees.find(emp => emp.employee_id === record.employee_id)?.name}</td>
-                <td>{record.date}</td>
+                <td>{formatDate(record.date)}</td>
                 <td>{record.status}</td>
               </tr>
             ))}
@@ -199,8 +311,8 @@ function App() {
       <div className="card">
         <h2>View Stats</h2>
         <select onChange={(e) => setSelectedStat(e.target.value)}>
-          <option value="overall">Overall Summary</option>
           <option value="employee">Employee Stats</option>
+          <option value="overall">Overall Summary</option>
           <option value="top">Top Performers</option>
         </select>
       </div>
